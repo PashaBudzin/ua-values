@@ -9,6 +9,12 @@ export type Result = {
   score: number
   /** відсоток «на бік axis.high», 0..100 */
   percent: number
+  /** потужність: |W1| + |W2| + ... + |Wn| */
+  intensity: number
+  /** сума найбільших |ваг| по кожному запитанню — теоретичний максимум потужності */
+  intensityMax: number
+  /** потужність у відсотках від intensityMax, 0..100 (для шкали й діапазонів) */
+  intensityPercent: number
   answered: number
   towardLow: number
   towardHigh: number
@@ -26,6 +32,7 @@ export function scoreAxis(
 ): Result | null {
   let sum = 0
   let max = 0
+  let strength = 0
   let answered = 0
   let towardLow = 0
   let towardHigh = 0
@@ -37,6 +44,7 @@ export function scoreAxis(
 
     answered += 1
     sum += weight
+    strength += Math.abs(weight)
     max += maxWeightOf(question)
 
     if (weight < 0) towardLow += 1
@@ -51,6 +59,9 @@ export function scoreAxis(
   return {
     score,
     percent: Math.round(((score + 1) / 2) * 100),
+    intensity: strength,
+    intensityMax: max,
+    intensityPercent: Math.round((strength / max) * 100),
     answered,
     towardLow,
     towardHigh,

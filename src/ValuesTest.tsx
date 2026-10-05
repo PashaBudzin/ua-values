@@ -4,6 +4,8 @@ import { findBand, scoreAxis } from './scoring'
 import type { Answers } from './scoring'
 import './ValuesTest.css'
 
+const round2 = (value: number) => Math.round(value * 100) / 100
+
 function ValuesTest() {
   const [answers, setAnswers] = useState<Answers>({})
   const [finished, setFinished] = useState(false)
@@ -14,6 +16,9 @@ function ValuesTest() {
 
   const result = finished ? scoreAxis(test.questions, answers) : null
   const band = result ? findBand(test.bands, result.percent) : null
+  const powerBand = result
+    ? findBand(test.power.bands, result.intensityPercent)
+    : null
 
   useEffect(() => {
     window.scrollTo({ top: 0 })
@@ -51,7 +56,7 @@ function ValuesTest() {
         </div>
       </header>
 
-      {result && band ? (
+      {result && band && powerBand ? (
         <main className="vt-main vt-result">
           <p className="vt-eyebrow">Ваш результат</p>
           <h1 className="vt-result-title">{band.title}</h1>
@@ -80,6 +85,26 @@ function ValuesTest() {
           </div>
 
           <p className="vt-result-text">{band.description}</p>
+
+          <section className="vt-power">
+            <div className="vt-power-head">
+              <h2 className="vt-power-title">{test.power.label}</h2>
+              <span className="vt-power-value">{round2(result.intensity)}</span>
+            </div>
+            <div className="vt-power-track">
+              <div
+                className="vt-power-fill"
+                style={{ width: `${result.intensityPercent}%` }}
+              />
+            </div>
+            <p className="vt-power-band">
+              <b>{powerBand.title}</b> — {powerBand.description}
+            </p>
+            <p className="vt-power-hint">
+              {test.power.hint} · {round2(result.intensity)} з{' '}
+              {round2(result.intensityMax)} можливих
+            </p>
+          </section>
 
           <ul className="vt-split">
             <li>

@@ -318,6 +318,68 @@
   line-height: 150%;
 }
 
+/* --- потужність (сума модулів ваг) --- */
+
+.vt-power {
+  margin: 0 0 32px;
+  padding: 20px 22px;
+  border: 1px solid var(--vt-border);
+  border-radius: 14px;
+  background: var(--vt-surface);
+}
+
+.vt-power-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.vt-power-title {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.24px;
+}
+
+.vt-power-value {
+  font-size: 26px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-h);
+}
+
+.vt-power-track {
+  height: 10px;
+  margin: 12px 0 14px;
+  border-radius: 999px;
+  background: var(--vt-border);
+  overflow: hidden;
+
+  .vt-power-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(to right, var(--vt-low), var(--vt-high));
+    transition: width 0.2s ease;
+  }
+}
+
+.vt-power-band {
+  margin: 0;
+  font-size: 17px;
+  line-height: 145%;
+  color: var(--text-h);
+
+  b {
+    color: var(--vt-high);
+  }
+}
+
+.vt-power-hint {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--vt-muted);
+}
+
 .vt-split {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
